@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "DM Sans", sans-serif;
+}
+
+.top-bar {
+  width: 100%;
+  height: fit-content;
+  align-items: center;
+  background-image: linear-gradient(rgb(255, 255, 255), rgb(215, 215, 215));
+  padding: 10px 10px 10px 10px;
+}
+
+.company-name {
+  font-size: 3rem;
+  padding-left: 1rem;
+}
+
+.company-logo {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 20px;
+  border: 1px solid rgb(183, 182, 182);
+}
+
+.stock-price {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.5rem;
+}
+
+.stock-change {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.5rem;
+  text-align: right;
+  font-weight: bolder;
+}
+
+.description-card {
+  height: fit-content;
+  margin: 10px 0 10px 10px;
+  width: 98%;
+}
+
+.stock-graph-box {
+  margin: 10px 0 10px 10px;
+  width: 98%;
+}
