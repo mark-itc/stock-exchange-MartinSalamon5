@@ -7,11 +7,24 @@
   font-family: "DM Sans", sans-serif;
 }
 
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-results-box {
   width: fit-content;
   margin-left: 11px;
+  margin-top: 10px;
 }
 
 .search-button {
   width: 120px;
+}
+
+.search-page-title {
+  font-size: 50px;
+  height: 100px;
 }

@@ -12,25 +12,6 @@ function deactivateLoader() {
   searchButton.innerHTML = `Search`;
 }
 
-function printSearchResults(resultsData) {
-  searchResultsBox.innerHTML = "";
-  for (let i = 0; i < 10; i++) {
-    const stockResult = document.createElement("li");
-    searchResultsBox.appendChild(stockResult);
-    stockResult.classList.add("list-group-item");
-    stockResult.innerHTML =
-      "<a href=/company.html?symbol=" +
-      resultsData[i].symbol +
-      ">" +
-      resultsData[i].name +
-      "  " +
-      "(" +
-      resultsData[i].symbol +
-      ")" +
-      "</a>";
-  }
-}
-
 function noAvailableSearchResults() {
   if (searchResultsBox.innerHTML == "") {
     const stockResult = document.createElement("li");
@@ -41,25 +22,77 @@ function noAvailableSearchResults() {
   }
 }
 
+function addCompanyPriceChangeColor() {
+  const companyPriceChange = document.getElementById("companyPriceChange");
+  if (companyPriceChange.innerHTML < 0) {
+    companyPriceChange.style.color = "red";
+  } else if (companyPriceChange.innerHTML < 0) {
+    companyPriceChange.style.color = "green";
+  }
+}
+
+function printSearchResults(resultsData, companyData) {
+  const stockResult = document.createElement("li");
+  searchResultsBox.appendChild(stockResult);
+  stockResult.classList.add("list-group-item");
+  stockResult.innerHTML =
+    `<img src="` +
+    companyData.profile.image +
+    `" style="height: 30px;" alt="" id="companyLogo" class="company-logo"/>` +
+    `    ` +
+    `<a style="text-decoration: none; color: black;" href="/company.html?symbol=` +
+    resultsData.symbol +
+    `">` +
+    resultsData.name +
+    `  ` +
+    `(` +
+    resultsData.symbol +
+    `)` +
+    `  (<span id="companyPriceChange">` +
+    companyData.profile.changes +
+    `</span>)</a>`;
+}
+
+async function getLogoAndStockPercentage(resultsData, companyProfileURL) {
+  try {
+    const companyDataResponse = await fetch(companyProfileURL);
+    const companyData = await companyDataResponse.json();
+    deactivateLoader();
+    printSearchResults(resultsData, companyData);
+  } catch (err) {
+    console.log("some Error occurred in function getLogoAndStockPercentage");
+  }
+}
+
 async function fetchSearchResults(searchResultsURL) {
   try {
     const searchResultsResponse = await fetch(searchResultsURL);
     const resultsData = await searchResultsResponse.json();
-    console.log(resultsData);
-    deactivateLoader();
     if (resultsData.length < 1) {
       console.log("less than 1 result");
       noAvailableSearchResults();
     } else {
-      printSearchResults(resultsData);
+      // console.log(resultsData);
+      for (let i = 0; i < 10; i++) {
+        // resultsData.forEach((resultsData) => {
+        const companyProfileURL =
+          "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/" +
+          resultsData[i].symbol;
+        // console.log(companyProfileURL);
+        getLogoAndStockPercentage(resultsData[i], companyProfileURL);
+      }
+      // });
     }
   } catch (err) {
-    console.log("there was an error getting info from server");
+    console.log(
+      "there was an error getting info from server / < than 10 results"
+    );
   }
 }
 
 function sendSearchWords(e) {
   e.preventDefault();
+  clearSearchResults();
   const searchInput = document.getElementById("searchInput");
   const searchInputValue = searchInput.value;
   if (searchInputValue != "") {

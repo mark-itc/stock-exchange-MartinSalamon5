@@ -12,28 +12,30 @@
     />
     <link rel="stylesheet" href="index.css" />
     <title>Stock Exchange</title>
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.png" />
   </head>
   <body>
     <div class="page-wrapper">
-      <nav class="navbar bg-light">
-        <div class="container-fluid">
-          <form class="d-flex" id="searcher">
-            <input
-              id="searchInput"
-              class="form-control me-2"
-              type="text"
-              placeholder="Search"
-            />
-            <button
-              id="searchButton"
-              class="btn btn-outline-success search-button"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-        </div>
-      </nav>
+      <div
+        class="d-flex justify-content-center align-items-center search-page-title"
+      >
+        Search Nasdaq Stocks
+      </div>
+      <form class="d-flex" id="searcher">
+        <input
+          id="searchInput"
+          class="form-control me-2"
+          type="text"
+          placeholder="Search"
+        />
+        <button
+          id="searchButton"
+          class="btn btn-outline-success search-button"
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
       <div class="search-results-box">
         <ul class="list-group" id="searchResultsBox"></ul>
       </div>
