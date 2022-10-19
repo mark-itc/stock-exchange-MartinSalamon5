@@ -1,5 +1,6 @@
 const searchButton = document.getElementById("searchButton");
 const searchResultsBox = document.getElementById("searchResultsBox");
+const marqueeBox = document.getElementById("marqueeBox");
 
 function activateLoader() {
   searchButton.innerHTML = `<div class="spinner-border spinner-border-sm" role="status">
@@ -19,6 +20,7 @@ function noAvailableSearchResults() {
     stockResult.classList.add("list-group-item");
     stockResult.innerHTML = "Sorry, this stock is currently unavailable.";
     stockResult.style.color = "blue";
+    deactivateLoader();
   }
 }
 
@@ -72,16 +74,12 @@ async function fetchSearchResults(searchResultsURL) {
       console.log("less than 1 result");
       noAvailableSearchResults();
     } else {
-      // console.log(resultsData);
       for (let i = 0; i < 10; i++) {
-        // resultsData.forEach((resultsData) => {
         const companyProfileURL =
           "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/" +
           resultsData[i].symbol;
-        // console.log(companyProfileURL);
         getLogoAndStockPercentage(resultsData[i], companyProfileURL);
       }
-      // });
     }
   } catch (err) {
     console.log(
@@ -118,4 +116,33 @@ function initializeSearcher() {
   searcher.addEventListener("input", clearSearchResults);
 }
 
+async function initializeMarquee() {
+  try {
+    const marqueeLink =
+      "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quote/AAPL,FB,GOOG,TSLA,AMD,SNAP,XLF,BAC,BMW.DE,GDX";
+    const marqueeStocksResponse = await fetch(marqueeLink);
+    const marqueeData = await marqueeStocksResponse.json();
+    marqueeData.forEach((marqueeData) => {
+      console.log(marqueeData.symbol + ` ` + marqueeData.changesPercentage);
+      const marqueeElement = document.createElement("span");
+      marqueeElement.classList.add("marquee-element");
+      marqueeBox.appendChild(marqueeElement);
+      marqueeElement.innerHTML =
+        marqueeData.symbol +
+        ` ` +
+        marqueeData.changesPercentage.toFixed(2) +
+        `%`;
+      if (marqueeData.changesPercentage < 0) {
+        marqueeElement.style.color = "red";
+      } else {
+        marqueeElement.style.color = "green";
+      }
+    });
+    console.log(marqueeData);
+  } catch (err) {
+    console.log("error in marquee init");
+  }
+}
+
 initializeSearcher();
+initializeMarquee();
