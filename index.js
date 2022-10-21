@@ -1,6 +1,7 @@
+import { MarqueeClass } from "./marquee.js";
+
 const searchButton = document.getElementById("searchButton");
 const searchResultsBox = document.getElementById("searchResultsBox");
-const marqueeBox = document.getElementById("marqueeBox");
 
 function activateLoader() {
   searchButton.innerHTML = `<div class="spinner-border spinner-border-sm" role="status">
@@ -24,35 +25,24 @@ function noAvailableSearchResults() {
   }
 }
 
-function addCompanyPriceChangeColor() {
-  const companyPriceChange = document.getElementById("companyPriceChange");
-  if (companyPriceChange.innerHTML < 0) {
-    companyPriceChange.style.color = "red";
-  } else if (companyPriceChange.innerHTML < 0) {
-    companyPriceChange.style.color = "green";
-  }
-}
-
 function printSearchResults(resultsData, companyData) {
   const stockResult = document.createElement("li");
   searchResultsBox.appendChild(stockResult);
   stockResult.classList.add("list-group-item");
-  stockResult.innerHTML =
-    `<img src="` +
-    companyData.profile.image +
-    `" style="height: 30px;" alt="" id="companyLogo" class="company-logo"/>` +
-    `    ` +
-    `<a style="text-decoration: none; color: black;" href="/company.html?symbol=` +
-    resultsData.symbol +
-    `">` +
-    resultsData.name +
-    `  ` +
-    `(` +
-    resultsData.symbol +
-    `)` +
-    `  (<span id="companyPriceChange">` +
-    companyData.profile.changes +
-    `</span>)</a>`;
+  const companyLogo = `<img src="${companyData.profile.image}" style="height: 30px;" alt="" id="companyLogo" class="company-logo"/>`;
+  if (companyData.profile.changes < 0) {
+    const companyStockChanges = `(<span style="color: red;">${companyData.profile.changes.toFixed(
+      2
+    )}</span>)`;
+    stockResult.innerHTML = `${companyLogo}   <a style="text-decoration: none; color: black;" href="/company.html?symbol=
+    ${resultsData.symbol}">${resultsData.name}   (${resultsData.symbol}) ${companyStockChanges}</a>`;
+  } else {
+    const companyStockChanges = `(<span style="color: green;">${companyData.profile.changes.toFixed(
+      2
+    )}</span>)`;
+    stockResult.innerHTML = `${companyLogo}   <a style="text-decoration: none; color: black;" href="/company.html?symbol=
+    ${resultsData.symbol}">${resultsData.name}   (${resultsData.symbol}) ${companyStockChanges}</a>`;
+  }
 }
 
 async function getLogoAndStockPercentage(resultsData, companyProfileURL) {
@@ -71,7 +61,6 @@ async function fetchSearchResults(searchResultsURL) {
     const searchResultsResponse = await fetch(searchResultsURL);
     const resultsData = await searchResultsResponse.json();
     if (resultsData.length < 1) {
-      console.log("less than 1 result");
       noAvailableSearchResults();
     } else {
       for (let i = 0; i < 10; i++) {
@@ -94,13 +83,9 @@ function sendSearchWords(e) {
   const searchInput = document.getElementById("searchInput");
   const searchInputValue = searchInput.value;
   if (searchInputValue != "") {
-    const searchResultsURL =
-      "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=" +
-      searchInputValue +
-      "&amp;limit=10&amp;exchange=NASDAQ";
+    const searchResultsURL = `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${searchInputValue}&amp;limit=10&amp;exchange=NASDAQ`;
     fetchSearchResults(searchResultsURL);
   } else {
-    console.log("nothing to search");
     deactivateLoader();
   }
 }
@@ -122,25 +107,10 @@ async function initializeMarquee() {
       "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quote/AAPL,FB,GOOG,TSLA,AMD,SNAP,XLF,BAC,BMW.DE,GDX";
     const marqueeStocksResponse = await fetch(marqueeLink);
     const marqueeData = await marqueeStocksResponse.json();
-    marqueeData.forEach((marqueeData) => {
-      console.log(marqueeData.symbol + ` ` + marqueeData.changesPercentage);
-      const marqueeElement = document.createElement("span");
-      marqueeElement.classList.add("marquee-element");
-      marqueeBox.appendChild(marqueeElement);
-      marqueeElement.innerHTML =
-        marqueeData.symbol +
-        ` ` +
-        marqueeData.changesPercentage.toFixed(2) +
-        `%`;
-      if (marqueeData.changesPercentage < 0) {
-        marqueeElement.style.color = "red";
-      } else {
-        marqueeElement.style.color = "green";
-      }
-    });
-    console.log(marqueeData);
+    const marquee = new MarqueeClass(marqueeData);
+    marquee.createMarquee();
   } catch (err) {
-    console.log("error in marquee init");
+    console.log("error in initializeMarquee");
   }
 }
 

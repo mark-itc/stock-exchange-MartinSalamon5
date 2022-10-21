@@ -47,7 +47,7 @@ function printCompanyDetails(companyData) {
   document.getElementById("stockPrice").innerHTML =
     "Price: " + companyPrice + " " + companyPriceCurrency;
   const priceChange = document.getElementById("stockChange");
-  priceChange.innerHTML = "(" + companyPriceChange + "%)";
+  priceChange.innerHTML = `(${companyPriceChange.toFixed(2)}%)`;
   if (companyPriceChange < 0) {
     priceChange.style.color = "red";
   } else {
@@ -73,10 +73,7 @@ function printPriceHistoryChart(historyData) {
 
 async function fetchPriceHistory() {
   try {
-    const priceHistoryURL =
-      "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/" +
-      symbolString +
-      "?serietype=line";
+    const priceHistoryURL = `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/${symbolString}?serietype=line`;
     const priceHistoryResponse = await fetch(priceHistoryURL);
     const historyData = await priceHistoryResponse.json();
     printPriceHistoryChart(historyData);
@@ -87,9 +84,7 @@ async function fetchPriceHistory() {
 
 async function fetchCompanyData() {
   try {
-    const companyProfileURL =
-      "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/" +
-      symbolString;
+    const companyProfileURL = `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbolString}`;
     const companyDataResponse = await fetch(companyProfileURL);
     const companyData = await companyDataResponse.json();
     deactivateLoader();
