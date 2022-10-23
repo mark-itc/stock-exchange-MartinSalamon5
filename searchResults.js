@@ -1,7 +1,6 @@
 class SearchResults {
-  constructor(searchResultsBox, searchResultsURL) {
+  constructor(searchResultsBox) {
     this.searchResultsBox = searchResultsBox;
-    this.searchResultsURL = searchResultsURL;
   }
   renderResults(searchResultsURL) {
     function noAvailableSearchResults() {
@@ -25,13 +24,13 @@ class SearchResults {
           2
         )}</span>)`;
         stockResult.innerHTML = `${companyLogo}   <a style="text-decoration: none; color: black;" href="/company.html?symbol=
-              ${resultsData.symbol}">${resultsData.name}   (${resultsData.symbol}) ${companyStockChanges}</a>`;
+              ${resultsData.symbol}"><span class="results-to-highlight">${resultsData.name}   (${resultsData.symbol})</span> ${companyStockChanges}</a>`;
       } else {
         const companyStockChanges = `(<span style="color: green;">${companyData.profile.changes.toFixed(
           2
         )}</span>)`;
         stockResult.innerHTML = `${companyLogo}   <a style="text-decoration: none; color: black;" href="/company.html?symbol=
-              ${resultsData.symbol}">${resultsData.name}   (${resultsData.symbol}) ${companyStockChanges}</a>`;
+              ${resultsData.symbol}"><span class="results-to-highlight">${resultsData.name}   (${resultsData.symbol})</span> ${companyStockChanges}</a>`;
       }
     }
 
