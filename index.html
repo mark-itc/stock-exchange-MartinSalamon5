@@ -24,26 +24,26 @@
       >
         Search Nasdaq Stocks
       </div>
-      <form class="d-flex searcher-form" id="searcher">
-        <input
-          id="searchInput"
-          class="form-control me-2"
-          type="text"
-          placeholder="Search"
-        />
-        <button
-          id="searchButton"
-          class="btn btn-outline-success search-button"
-          type="submit"
-        >
-          Search
-        </button>
-      </form>
+      <div id="formBox">Form Box</div>
       <div class="search-results-box">
         <ul class="list-group" id="searchResultsBox"></ul>
       </div>
     </div>
-
-    <script type="module" src="index.js"></script>
+    <script src="marquee.js"></script>
+    <script src="searchForm.js"></script>
+    <script src="searchResults.js"></script>
+    <script>
+      (async function () {
+        const marquee = new MarqueeClass(document.getElementById("marqueeBox"));
+        marquee.createMarquee();
+        const form = new SearchForm(document.getElementById("formBox"));
+        const results = new SearchResults(
+          document.getElementById("searchResultsBox")
+        );
+        form.onSearch((companies) => {
+          results.renderResults(companies);
+        });
+      })();
+    </script>
   </body>
 </html>
