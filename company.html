@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="company.css" />
+    <title>Company</title>
+  </head>
+  <body>
+    <div class="d-flex flex-column page-wrapper">
+      <div
+        class="d-flex flex-column flex-sm-column flex-md-row flex-lg-row flex-xl-row justify-content-between top-bar"
+      >
+        <div
+          id="companyNameAndLogo"
+          class="d-flex flex-row align-items-center justify-content-center company-name-and-logo"
+        ></div>
+        <div
+          id="priceInformation"
+          class="d-flex flex-row flex-md-column price-information"
+        >
+          <span class="stock-price" id="stockPrice">Stock Price</span>
+          <span class="stock-change" id="stockChange">Stock Change</span>
+        </div>
+      </div>
+      <div class="company-page-content d-flex flex-column">
+        <div class="description-card">
+          <h5 class="card-title">Company Description</h5>
+          <p class="company-description" id="companyDescription">
+            Company Description Text
+          </p>
+          <a href="#" id="companyWebsite" class="btn btn-primary"
+            >Company Website</a
+          >
+        </div>
+
+        <div class="stock-graph-box" id="stockGraphBox">
+          <div>
+            <canvas id="stockHistoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="company.js"></script>
+  </body>
+</html>

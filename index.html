@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <title>Stock Exchange</title>
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.png" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="marquee-wrapper">
+        <div class="d-flex marquee-box" id="marqueeBox"></div>
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center search-page-title"
+      >
+        Search Nasdaq Stocks
+      </div>
+      <div id="formBox">Form Box</div>
+      <div class="search-results-box">
+        <ul class="list-group" id="searchResultsBox"></ul>
+      </div>
+    </div>
+    <script src="marquee.js"></script>
+    <script src="searchForm.js"></script>
+    <script src="searchResults.js"></script>
+    <script>
+      (async function () {
+        const marquee = new MarqueeClass(document.getElementById("marqueeBox"));
+        marquee.createMarquee();
+        const form = new SearchForm(document.getElementById("formBox"));
+        const results = new SearchResults(
+          document.getElementById("searchResultsBox")
+        );
+        form.onSearch((companies) => {
+          results.renderResults(companies);
+        });
+      })();
+    </script>
+  </body>
+</html>
